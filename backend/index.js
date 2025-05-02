@@ -16,6 +16,7 @@ app.use(methodOverride("_method")); // Supports both query params and form field
 
 
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
 app.use(cookieParser());
 
