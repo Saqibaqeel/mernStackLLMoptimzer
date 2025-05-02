@@ -30,7 +30,7 @@ const BotWelcomePanel = () => {
         <div className="text-center mb-5">
           <i className="fas fa-robot fa-4x mb-3 animate-float"></i>
           <h2 className="display-5 fw-bold mb-3">
-            Welcome to <span className="text-warning">AI</span> Assistant
+            Welcome to <span className="text-warning">ConsistAI</span> LLM Stabilizer
           </h2>
           <p className="lead">Your Intelligent Conversation Partner</p>
         </div>

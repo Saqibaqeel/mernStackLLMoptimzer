@@ -44,7 +44,7 @@ const Login = () => {
 
     try {
       await login(formData);
-      toast.success("Neural interface connected!");
+      toast.success("login success");
       navigate("/chat");
     } catch (error) {
       toast.error(error.message || "Authentication failure");
@@ -86,7 +86,7 @@ const Login = () => {
                                 ? "is-invalid"
                                 : ""
                             }`}
-                            placeholder="Neural ID"
+                            placeholder="email ID"
                           />
                         </div>
                       </div>
@@ -105,7 +105,7 @@ const Login = () => {
                             className={`form-control bg-white text-dark ${
                               touched.password && !formData.password ? "is-invalid" : ""
                             }`}
-                            placeholder="Encryption Key"
+                            placeholder="password"
                           />
                         </div>
                         <div className="text-end mt-2">
@@ -155,7 +155,7 @@ const Login = () => {
                       <p className="text-center mt-4 mb-0 text-muted">
                         New entity?{' '}
                         <a href="/signup" className="text-primary hover-underline">
-                          Initialize Protocol <i className="fas fa-microchip ms-2"></i>
+                          SignUp <i className="fas fa-microchip ms-2"></i>
                         </a>
                       </p>
                     </form>

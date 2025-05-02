@@ -23,7 +23,7 @@ const Home = () => {
         <div className="container text-center">
           <h1 className="display-4 fw-bold mb-4">
             <i className="fas fa-comments me-3"></i>
-            Smart AI Chat Assistant
+            ConsistAI: LLM Stabilizer
           </h1>
           <p className="lead mb-4">
             Experience next-gen conversations powered by multiple AI models
