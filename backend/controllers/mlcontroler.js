@@ -176,6 +176,18 @@ function parseBestIndex(text, candidateCount) {
         return Math.floor(Math.random() * candidateCount);
     }
 }
+const createCustomBoat=async (req,res)=>{
+    try {
+        const {title,instruction} = req.body;
+        if (!title || !instruction) {
+            return res.status(400).json({ error: 'Title and instruction are required' });
+        }
+        
+    } catch (error) {
+        
+    }
+
+}
 
 module.exports = { judgeAndGenerate };
 

@@ -152,10 +152,10 @@ const Home = () => {
           <p className="lead mb-4">Join thousands of users experiencing AI-powered conversations</p>
           <button 
             className="btn btn-light btn-lg px-5"
-            onClick={() => navigate('/chat')}
+            onClick={() => navigate('/listOchat')}
           >
             <i className="fas fa-comments me-2"></i>
-            Start Chatting Now
+            Start with Specific Bot
           </button>
         </div>
       </section>

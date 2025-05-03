@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import useAuth from '../store/UseAuth';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FaPlay, FaStop, FaVolumeUp, FaVolumeMute, FaMicrophone, FaStopCircle, FaSun, FaMoon, FaPaperPlane, FaSignOutAlt } from 'react-icons/fa';
+import { FaVolumeUp, FaVolumeMute, FaMicrophone, FaStopCircle, FaSun, FaMoon, FaPaperPlane, FaSignOutAlt } from 'react-icons/fa';
 
 const LANGUAGES = {
   en: { name: 'English', native: 'English', code: 'en', voiceCode: 'en-US' },
@@ -14,7 +14,7 @@ const LANGUAGES = {
 
 const ChatInterface = () => {
   const navigate = useNavigate();
-  const { checkAuth, isCheckingAuth, authUser, logout, isLogout } = useAuth();
+  const { logout, isLogout } = useAuth();
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,9 @@ const ChatInterface = () => {
   const recognition = useRef(null);
   const utterance = useRef(null);
 
+  // Speech initialization
   useEffect(() => {
+    // Initialize speech recognition
     recognition.current = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.current.continuous = false;
     recognition.current.interimResults = false;
@@ -42,18 +44,24 @@ const ChatInterface = () => {
 
     recognition.current.onerror = () => setIsRecording(false);
 
+    // Initialize speech synthesis
     const updateVoices = () => {
       const voices = synthesis.current.getVoices();
       if (voices.length > 0) {
         utterance.current = new SpeechSynthesisUtterance();
         const langVoice = voices.find(v => v.lang === LANGUAGES[selectedLanguage].voiceCode);
         utterance.current.voice = langVoice || voices[0];
+        utterance.current.lang = langVoice?.lang || voices[0]?.lang;
       }
     };
+
+    // Load voices initially
+    updateVoices();
     
     synthesis.current.addEventListener('voiceschanged', updateVoices);
     return () => {
       synthesis.current?.removeEventListener('voiceschanged', updateVoices);
+      synthesis.current?.cancel();
     };
   }, [selectedLanguage]);
 
@@ -102,14 +110,31 @@ const ChatInterface = () => {
     if (isSpeaking) {
       synthesis.current.cancel();
       setIsSpeaking(false);
-    } else {
-      if (utterance.current) {
-        utterance.current.text = text;
-        utterance.current.onend = () => setIsSpeaking(false);
-        utterance.current.onerror = () => setIsSpeaking(false);
-        synthesis.current.speak(utterance.current);
-        setIsSpeaking(true);
-      }
+      return;
+    }
+
+    if (!utterance.current || !synthesis.current) {
+      console.error('Speech synthesis not available');
+      return;
+    }
+
+    try {
+      const voices = synthesis.current.getVoices();
+      utterance.current.text = text;
+      utterance.current.voice = voices.find(v => v.lang === LANGUAGES[selectedLanguage].voiceCode) || voices[0];
+      utterance.current.lang = LANGUAGES[selectedLanguage].voiceCode;
+      
+      utterance.current.onend = () => setIsSpeaking(false);
+      utterance.current.onerror = (err) => {
+        console.error('Speech error:', err);
+        setIsSpeaking(false);
+      };
+
+      synthesis.current.speak(utterance.current);
+      setIsSpeaking(true);
+    } catch (error) {
+      console.error('Speech synthesis failed:', error);
+      setIsSpeaking(false);
     }
   };
 
@@ -289,7 +314,7 @@ const ChatInterface = () => {
             className={`btn ${isRecording ? 'btn-danger' : isDarkMode ? 'btn-secondary' : 'btn-outline-secondary'}`}
             onClick={handleVoiceInput}
           >
-            {isRecording ? <FaStop /> : <FaMicrophone />}
+            {isRecording ? <FaStopCircle /> : <FaMicrophone />}
           </button>
           <input
             type="text"
