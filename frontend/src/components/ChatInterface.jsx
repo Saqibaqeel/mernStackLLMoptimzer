@@ -151,7 +151,7 @@ const ChatInterface = () => {
       setMessages(prev => [...prev, { content: input, isBot: false }]);
 
       const response = await axios.post(
-        'http://localhost:3000/api/ml/judgeAndGenerate',
+        'https://mernstackllmoptimzer-3.onrender.com/api/ml/judgeAndGenerate',
         { 
           prompt: input,
           language: selectedLanguage
