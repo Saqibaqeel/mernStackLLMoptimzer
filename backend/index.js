@@ -27,7 +27,11 @@ app.use(cookieParser());
     credentials: true, 
 };
 
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: 'https://mernstackllmoptimzer.onrender.com',
+  credentials: true
+}));
+
 
 app.use('/api/auth',authRoutes);
 app.use('/api/ml',mlRoutes);
