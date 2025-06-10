@@ -11,7 +11,7 @@ import { Toaster} from 'react-hot-toast'
 import useAuth from './store/UseAuth';
 import ListofBoat from './components/ListofBoat'
 import FarmBoat from './components/FarmBoat'
-import MedicalBot from './components/Medicalbot'
+
 import LegalBot from './components/LegalBot'
 import EducationBot from './components/EductionBot'
 
@@ -42,7 +42,7 @@ function App() {
 
     <Route path="/listOchat" element={<ListofBoat />} />
     <Route path="/farming-chat" element={<FarmBoat />} />
-    <Route path="/medical-chat" element={<MedicalBot />} />
+ 
     <Route path="/legal-chat" element={<LegalBot />} />
     <Route path="/education-chat" element={<EducationBot />} />
       <Route path="/signup" element={<SignUp />} />
